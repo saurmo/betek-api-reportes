@@ -1,0 +1,26 @@
+{
+  "name": "betek-api-reportes",
+  "version": "1.0.0",
+  "description": "api de reportes",
+  "main": "index.ts",
+  "scripts": {
+    "dev":"nodemon -e ts,json --exec 'ts-node index.ts'",
+    "test": "echo \"Error: no test specified\" && exit 1"
+
+  },
+  "keywords": [
+    "api"
+  ],
+  "author": "betek-saurmo",
+  "license": "ISC",
+  "dependencies": {
+    "config": "^3.3.12",
+    "express": "^4.21.1",
+    "mysql2": "^3.11.3"
+  },
+  "devDependencies": {
+    "@types/config": "^3.3.5",
+    "@types/express": "^5.0.0",
+    "@types/node": "^22.8.5"
+  }
+}
