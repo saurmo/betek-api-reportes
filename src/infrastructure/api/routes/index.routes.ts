@@ -1,10 +1,11 @@
 
 
 import express, { Request, Response } from 'express'
-import { ReporteProductosController } from '../../application/reportes/productos.controller'
-import { Filters } from '../../domain'
+import { ReporteProductosController } from '../../../application/reportes/productos.controller'
+import { Filters } from '../../../domain'
 import swaggerUi from 'swagger-ui-express'
-import { swaggerOptions } from '../../../docs/swagger'
+import { swaggerOptions } from '../../../../docs/swagger'
+import { AuthMiddleware } from '../middlewares/authorization'
 
 const router = express.Router()
 
@@ -16,6 +17,9 @@ const apiVersion = '/api/v1'
 // Creando el servidor ui (User interface) de la documentación
 router.use(`${apiVersion}/docs`, swaggerUi.serve, swaggerUi.setup(swaggerOptions))
 
+
+router.use(AuthMiddleware)
+// Todas las rutas hacia abajo, necesitan el auth
 router.get(`${apiVersion}/reportes/productos`, async (req: Request, res: Response) => {
     try {
         const params = {

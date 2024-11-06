@@ -4,7 +4,7 @@
 // En otras palabras levantar en express
 
 import express from 'express'
-import { router } from './src/infrastructure/api/index.routes'
+import { router } from './src/infrastructure/api/routes/index.routes'
 
 const main = () => {
 
