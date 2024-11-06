@@ -10,7 +10,18 @@ export class ReporteProductosController {
         this.repository = new ReportesRepository()
     }
 
-    async generarReporte(filters: Filters) {
+    async generarReporte(filterParams: { limit?: string, search?: string, offset?: string }) {
+        let filters: Filters = {
+            limit: 10,
+            offset: 0,
+            search: filterParams.search?.toString()
+        }
+        if (filterParams.limit) { // filterParams.limit != null && filterParams.limit!=undefined
+            filters.limit = parseInt(filterParams.limit.toString())
+        }
+        if (filterParams.offset) {
+            filters.offset = parseInt(filterParams.offset.toString())
+        }
         const totalProductos = await this.repository.totalProductos(filters)
         const total = totalProductos[0].total
         const paginas = Math.round(total / filters.limit)

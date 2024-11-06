@@ -10,6 +10,9 @@ const main = () => {
 
     const app = express()
 
+    // Importante: Middleware para aceptar los json en los request
+    app.use(express.json())
+
     app.use(router)
 
     const PORT = process.env.PORT || 3001
