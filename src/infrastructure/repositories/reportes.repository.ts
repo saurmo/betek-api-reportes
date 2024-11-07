@@ -4,7 +4,6 @@ import { Filters } from "../../domain";
 
 export class ReportesRepository {
     constructor() {
-
     }
 
     async totalProductos(filters: Filters) {
@@ -22,5 +21,4 @@ export class ReportesRepository {
         const result = await connection.query<RowDataPacket[]>(querySql);
         return result[0];
     }
-
 }
