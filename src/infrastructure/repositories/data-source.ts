@@ -9,6 +9,7 @@ const configOptions = {
   database: config.get<string>("DATABASE.NAME"),
   port: config.get<number>("DATABASE.PORT"),
 };
+
 export const getPoolConnection = () => {
   const connection = mysql.createPool(configOptions);
   return connection;
