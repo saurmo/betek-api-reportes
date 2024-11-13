@@ -6,6 +6,7 @@ import { Filters } from '../../../domain'
 import swaggerUi from 'swagger-ui-express'
 import { swaggerOptions } from '../../../../docs/swagger'
 import { AuthMiddleware } from '../middlewares/authorization'
+import { NotificationService } from '../../services/notificaciones'
 
 const router = express.Router()
 
@@ -45,12 +46,25 @@ router.get(`${apiVersion}/reportes/productos`, async (req: Request, res: Respons
 router.post(`${apiVersion}/reportes/productos`, async (req: Request, res: Response) => {
     try {
         const resultado = await controller.generarReporte(req.body)
+
+        const mailService = new NotificationService()
+        const responseEmail = await mailService.sendReportByEmail({
+            to: req.body.to,
+            subject: 'Reporte de productos',
+            body: JSON.stringify(resultado)
+        })
+
         res.send({
             ok: true,
-            info: resultado,
+            info: {
+                productos: resultado,
+                respuestaEmail: responseEmail
+            },
             message: "Reporte generado "
         })
     } catch (error: any) {
+        console.log(error);
+        
         res.status(500).send({
             ok: false,
             message: "Ha ocurrido un error ",
