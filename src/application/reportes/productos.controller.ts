@@ -1,5 +1,7 @@
 import { Filters } from "../../domain";
+import { Products } from "../../domain/Products";
 import { ReportesRepository } from "../../infrastructure/repositories/reportes.repository";
+import { createPdf } from "../../infrastructure/services/create-pdf";
 
 
 export class ReporteProductosController {
@@ -26,6 +28,9 @@ export class ReporteProductosController {
         const total = totalProductos[0].total
         const paginas = Math.round(total / filters.limit)
         const resultado = await this.repository.obtenerReporteProductos(filters)
+        const products = resultado as Products[]
+        createPdf(products)
+
         return { pagination: { total, paginas, items_por_pagina: filters.limit, offset: filters.offset }, resultado }
     }
 

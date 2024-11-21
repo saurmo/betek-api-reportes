@@ -1,17 +1,41 @@
 
-import axios from 'axios'
+import amqp from "amqplib";
+
 export class NotificationService {
+
+    async conectarMq() {
+        try {
+            const url: string = "amqp://localhost";
+            const conexion = await amqp.connect(url);
+            console.log("Conectado a MQ");
+
+            const channel = await conexion.createChannel();
+            console.log("Creación del canal - Habilitado para crear colas.");
+
+            const nombraCola = "notificaciones";
+            channel.assertQueue(nombraCola, { durable: true });
+
+            const nombraColas = "pedidos";
+            channel.assertQueue(nombraColas, { durable: true });
+            return channel;
+        } catch (error) {
+            console.log(error);
+        }
+    };
 
     async sendReportByEmail(payload: {
         to: string,
         subject: string
         body: string
     }) {
-        // let url = config.get<string>('REPORT_SERVICE.URL')
-        let url = 'http://localhost:3002/api/v1/notificaciones/correo';
-        const response = await axios.post(url, payload)
-        const data = response.data
-        return data
+        const channel = await this.conectarMq();
+        if (channel) {
+            channel.sendToQueue("notificaciones", Buffer.from(JSON.stringify(payload)));
+            console.log('Mensaje enviado');
+        }
     }
 
 }
+
+
+
