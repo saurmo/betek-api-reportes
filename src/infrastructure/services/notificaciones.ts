@@ -1,5 +1,6 @@
 
 import amqp from "amqplib";
+import { EmailOptions } from "../../domain/EmailOptions";
 
 export class NotificationService {
 
@@ -23,11 +24,7 @@ export class NotificationService {
         }
     };
 
-    async sendReportByEmail(payload: {
-        to: string,
-        subject: string
-        body: string
-    }) {
+    async sendReportByEmail(payload: EmailOptions) {
         const channel = await this.conectarMq();
         if (channel) {
             channel.sendToQueue("notificaciones", Buffer.from(JSON.stringify(payload)));

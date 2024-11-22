@@ -7,6 +7,7 @@ import swaggerUi from 'swagger-ui-express'
 import { swaggerOptions } from '../../../../docs/swagger'
 import { AuthMiddleware } from '../middlewares/authorization'
 import { NotificationService } from '../../services/notificaciones'
+import { ReportOptions } from '../../../domain/ReportOptions'
 
 const router = express.Router()
 
@@ -23,12 +24,13 @@ router.use(AuthMiddleware)
 // Todas las rutas hacia abajo, necesitan el auth
 router.get(`${apiVersion}/reportes/productos`, async (req: Request, res: Response) => {
     try {
-        const params = {
+        const options: ReportOptions = {
             limit: req.query?.limit?.toString(),
             offset: req.query?.offset?.toString(),
             search: req.query?.search?.toString(),
+            enviarCorreo: false
         }
-        const resultado = await controller.generarReporte(params)
+        const resultado = await controller.generarReporte(options)
         res.send({
             ok: true,
             info: resultado,
@@ -45,26 +47,25 @@ router.get(`${apiVersion}/reportes/productos`, async (req: Request, res: Respons
 
 router.post(`${apiVersion}/reportes/productos`, async (req: Request, res: Response) => {
     try {
-        const resultado = await controller.generarReporte(req.body)
-
-        const mailService = new NotificationService()
-        const responseEmail = await mailService.sendReportByEmail({
-            to: req.body.to,
-            subject: 'Reporte de productos',
-            body: JSON.stringify(resultado)
-        })
+        const options: ReportOptions = {
+            limit: req.body.limit?.toString(),
+            offset: req.body.offset?.toString(),
+            search: req.body.search?.toString(),
+            enviarCorreo: true,
+            to: req.body.to?.toString(),
+        }
+        const resultado = await controller.generarReporte(options)
 
         res.send({
             ok: true,
             info: {
-                productos: resultado,
-                respuestaEmail: responseEmail
+                productos: resultado
             },
             message: "Reporte generado "
         })
     } catch (error: any) {
         console.log(error);
-        
+
         res.status(500).send({
             ok: false,
             message: "Ha ocurrido un error ",
