@@ -5,5 +5,8 @@
         "PASSWORD": "",
         "NAME": "tienda_virtual",
         "PORT": 3306
+    },
+    "CHAT_GPT": {
+        "key": ""
     }
 }

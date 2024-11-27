@@ -1,0 +1,12 @@
+{
+    "DATABASE": {
+        "HOST": "DB_HOST",
+        "USER": "DB_USER",
+        "PASSWORD": "",
+        "NAME": "DB_NAME",
+        "PORT": 3306
+    },
+    "CHAT_GPT": {
+        "key": "API_KEY"
+    }
+}
