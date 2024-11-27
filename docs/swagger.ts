@@ -1,4 +1,4 @@
-import { productosDoc } from "./productos.doc";
+import { productosDoc, productosDocId } from "./productos.doc";
 
 export const swaggerOptions = {
     openapi: "3.0.3",
@@ -23,7 +23,8 @@ export const swaggerOptions = {
         }
     ],
     paths: {
-        "/api/v1/reportes/productos": productosDoc
+        "/api/v1/reportes/productos": productosDoc,
+        "/api/v1/reportes/productos/{id}": productosDocId
     },
     components: {
         schemas: {

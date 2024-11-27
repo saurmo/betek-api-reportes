@@ -4,10 +4,20 @@ export const productosDoc = {
 
     get: {
         tags: ['Reportes'],
+        parameters: [
+            {
+                in: 'query',
+                name: 'limit',
+                schema: {
+                    type: 'integer'
+                },
+                description: 'Limite de datos'
+            }
+        ],
         description: "Reporte sobre productos",
-        responses:{
-            default:{
-                description:"Respuesta por defecto"
+        responses: {
+            default: {
+                description: "Respuesta por defecto"
             }
         }
     },
@@ -30,4 +40,36 @@ export const productosDoc = {
             }
         }
     }
+}
+
+export const productosDocId = {
+
+    get: {
+        tags: ['Reportes'],
+        parameters: [
+            {
+                in: 'path',
+                name: 'id',
+                schema: {
+                    type: 'integer'
+                },
+                description: 'Id de reporte'
+            },
+            {
+                in: 'query',
+                name: 'limite',
+                schema: {
+                    type: 'integer'
+                },
+                description: 'Limite de datos'
+            }
+        ],
+        description: "Reporte sobre productos",
+        responses: {
+            default: {
+                description: "Respuesta por defecto"
+            }
+        }
+    },
+
 }
