@@ -3,8 +3,7 @@
         "HOST": "DB_HOST",
         "USER": "DB_USER",
         "PASSWORD": "DB_PASSWORD",
-        "NAME": "DB_NAME",
-        "PORT": "DB_PORT"
+        "NAME": "DB_NAME"
     },
     "CHAT_GPT": {
         "key": "API_KEY"
